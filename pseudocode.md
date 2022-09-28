@@ -7,6 +7,11 @@
 
 # functions
 - createElements()
+~~~
+createElement h1
+createElement 
+createElement 
+~~~
 - BtnClick()
 - tempConvert()
 - clearData() <!-- not so sure about this????-->
