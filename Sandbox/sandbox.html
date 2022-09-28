@@ -17,10 +17,10 @@
                 <h1>Weather App</h1>
             </div>
             <div class="col-sm-6" >
-                <input placeholder="40511">
+                <input id="inputBox" placeholder="40511">
             </div>
             <div class="col-sm-6">
-                <button class="btn btn-primary">Get Weather</button>
+                <button id="weatherBtn"class="btn btn-primary">Get Weather</button>
             </div>
 
         </div>
@@ -33,7 +33,7 @@
                     <h2>City</h2>
                 </div>
                 <div class="col-12 text-center border border-warning rounded-bottom p-3 ">
-                    <h3 id="cityName">Lexington</h3>
+                    <h3 id="cityName"></h3>
                 </div>
             
         </div>
@@ -44,13 +44,13 @@
                     <h2>Temperature</h2>
                 </div>
                 <div class="col-4 text-center border-bottom rounded-bottom border-start border-end border-warning p-3 ">
-                    <h3 id="kelvin">123 k</h3>
+                    <h3 id="kelvin"></h3>
                 </div>
                 <div class="col-4 text-center border-bottom rounded-bottom border-warning p-3">
-                    <h3 id="fahrenheit">32 F</h3>
+                    <h3 id="fahrenheit"></h3>
                 </div>
                 <div class="col-4 text-center border-bottom rounded-bottom border-start border-end border-warning p-3">
-                    <h3 id="celcius"> -9 C</h3>
+                    <h3 id="celsius"></h3>
                 </div>
         </div>
 
@@ -60,7 +60,7 @@
                 <h2>Condition</h2>
             </div>
             <div class="col-12 text-center border-bottom border-start border-end border-warning rounded-bottom p-3 ">
-                <h3 id="condition">Light Rain</h3>
+                <h3 id="condition"></h3>
             </div>
         </div>
         
@@ -76,6 +76,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
-    <script src="./sandbox/sandbox.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>

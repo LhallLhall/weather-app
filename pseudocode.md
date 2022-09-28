@@ -3,15 +3,10 @@
 - mainDiv = get id from the one div that you will append everything too
 - zipCode = "" empty string where you will push the zipCode too
 - 
-# State
-
 # functions
 - createElements()
-~~~
-createElement h1
-createElement 
-createElement 
-~~~
+  - create a function with parameters that when the function is called it uses those parameters to create that element
+    - I.E 
 - BtnClick()
 - tempConvert()
 - clearData() <!-- not so sure about this????-->
@@ -25,5 +20,13 @@ createElement
   - once the elements have been created wait for the user to input their zipCode
   - when the user presses get weather it will make all of the elements hidden
   once the user puts in their zip code and presses "get weather" it runs a function that makes the rest of the element on the page load.
--  
-  - 
+- ON "get weather" press
+  - set all inner text inside (city, condition, kelvin, celsius, fahrenheit, and add an image to other info)
+
+- If the zip code was bad don't run anything and display an error message
+
+
+
+There will be an event listener for a press of the get weather button
+if will first see if that zip code is valid if not it will show an error
+if it's true the function BtnClick will run. The BtnClick function will reference all of the needed createElement() references. the createElement function will use perimeters to create the function
