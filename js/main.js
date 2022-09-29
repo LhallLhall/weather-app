@@ -52,7 +52,7 @@ function createCity () {
 // * CREATES THE TEMPERATURE PORTION OF THE PAGE
 function createTemperature () {
 
-let tempRow = createAndAddElement(mainDiv, 'div', ['row', 'p-4'], '', '')
+let tempRow = createAndAddElement(mainDiv, 'div', ['row', 'p-3'], '', '')
 
 
 let tempDiv = createAndAddElement(tempRow, 'div', ['col-12', 'text-center', 'border', 'rounded-top', 'border-success', 'p-4'])
@@ -101,50 +101,59 @@ let otherInfoImg = createAndAddElement(otherInfoImgDiv, 'img', ['p-1'], 'img',''
 
 
 async function updatePage () {
+    let data;
+    try {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
+        data = response.data;
+    }catch (error) {
+        alert('Zip-Code Does Not Work')
+        console.log('hi')
+    }
+        weatherObj = data;
     
-    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
-    let data = response.data;
-    weatherObj = data;
+        let city = document.getElementById('cityName')
+        let fahrenheit = document.getElementById('fahrenheit')
+        let celsius = document.getElementById('celsius')
+        let kelvin = document.getElementById('kelvin')
+        let condition = document.getElementById('condition')
+        let img = document.getElementById('img')
+    
+        let cityName = weatherObj.name
+        let kelvinApi = weatherObj.main.temp
+        let fahrenheitApi = weatherObj.main.temp
+        let celsiusApi = weatherObj.main.temp
+        let conditionApi = weatherObj.weather[0].description
+        let imgSrc = weatherObj.weather[0].icon
+        let imgApi =  `https://openweathermap.org/img/wn/${imgSrc}@2x.png`
+        
+        img.src = imgApi
+        kelvinApi = Math.floor(kelvinApi)
+        celsiusApi = Math.floor(kelvinApi -273)
+        fahrenheitApi = Math.floor( celsiusApi * (9/5) + 32)
+        
+        city.textContent = cityName
+        kelvin.textContent = kelvinApi
+        fahrenheit.textContent = fahrenheitApi
+        celsius.textContent = celsiusApi
+        condition.textContent = conditionApi[0].toUpperCase() + conditionApi.substring(1);
+        
+        console.log(conditionApi)
+        console.log(kelvinApi)
+        console.log(celsiusApi)
+        console.log(fahrenheitApi)
 
-    let city = document.getElementById('cityName')
-    let fahrenheit = document.getElementById('fahrenheit')
-    let celsius = document.getElementById('celsius')
-    let kelvin = document.getElementById('kelvin')
-    let condition = document.getElementById('condition')
-    let img = document.getElementById('img')
 
-    let cityName = weatherObj.name
-    let kelvinApi = weatherObj.main.temp
-    let fahrenheitApi = weatherObj.main.temp
-    let celsiusApi = weatherObj.main.temp
-    let conditionApi = weatherObj.weather[0].description
-    let imgSrc = weatherObj.weather[0].icon
-    let imgApi =  `https://openweathermap.org/img/wn/${imgSrc}@2x.png`
-    img.src = imgApi
-    kelvinApi = Math.floor(kelvinApi)
-    celsiusApi = Math.floor(kelvinApi -273)
-    fahrenheitApi = Math.floor( celsiusApi * (9/5) + 32)
-    
-    city.textContent = cityName
-    kelvin.textContent = kelvinApi
-    fahrenheit.textContent = fahrenheitApi
-    celsius.textContent = celsiusApi
-    condition.textContent = conditionApi[0].toUpperCase() + conditionApi.substring(1);
-    
-    console.log(conditionApi)
-    console.log(kelvinApi)
-    console.log(celsiusApi)
-    console.log(fahrenheitApi)
+
 }
 
+
 // * GRABS THE BUTTON AND INPUT ID'S AFTER THEY HAVE BEEN CREATED
-// let inputBox = document.getElementById('inputBox').addEventListener('oninput', getValue)
 let weatherBtn = document.getElementById('weatherBtn').addEventListener('click', generatePage)
 
 
 // * GENERATES THE PAGE WHEN THE GET WEATHER BTN IS CLICKED ALSO CALLS THE API FUNCTION AND INPUTS THE ZIP CODE
 // TODO this is erroring out. need to revise it.
-async function generatePage () {
+function generatePage () {
     getValue()
     updatePage()
     // getData()
@@ -157,6 +166,7 @@ async function generatePage () {
     }
     console.log(page)
 }
+
 
 function getValue () {
     let value = inputBox.value.toString()
