@@ -6,8 +6,12 @@
 # functions
 - createElements()
   - create a function with parameters that when the function is called it uses those parameters to create that element
-    - I.E 
-- BtnClick()
+- createStaticElements()
+- createCity()
+- createTemperature()
+- createCondition()
+- createOtherInfo()
+- UpdatePage()
 - tempConvert()
 - clearData() <!-- not so sure about this????-->
 # objects
