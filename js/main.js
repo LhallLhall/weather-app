@@ -121,7 +121,7 @@ async function updatePage () {
     let imgSrc = weatherObj.weather[0].icon
     let imgApi =  `https://openweathermap.org/img/wn/${imgSrc}@2x.png`
     img.src = imgApi
-    
+    kelvinApi = Math.floor(kelvinApi)
     celsiusApi = Math.floor(kelvinApi -273)
     fahrenheitApi = Math.floor( celsiusApi * (9/5) + 32)
     
@@ -129,7 +129,7 @@ async function updatePage () {
     kelvin.textContent = kelvinApi
     fahrenheit.textContent = fahrenheitApi
     celsius.textContent = celsiusApi
-    condition.textContent = conditionApi
+    condition.textContent = conditionApi[0].toUpperCase() + conditionApi.substring(1);
     
     console.log(conditionApi)
     console.log(kelvinApi)
