@@ -98,16 +98,14 @@ let otherInfoImgDiv = createAndAddElement(otherInfoRow, 'div', ['col-12', 'text-
 let otherInfoImg = createAndAddElement(otherInfoImgDiv, 'img', ['p-1'], 'img','')
 
 }
-// createOtherInfo()
 
-async function getData() {
+
+async function updatePage () {
+    
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
     let data = response.data;
     weatherObj = data;
-}
 
-function updatePage () {
-    
     let city = document.getElementById('cityName')
     let fahrenheit = document.getElementById('fahrenheit')
     let celsius = document.getElementById('celsius')
@@ -121,7 +119,7 @@ function updatePage () {
     let celsiusApi = weatherObj.main.temp
     let conditionApi = weatherObj.weather[0].description
     let imgSrc = weatherObj.weather[0].icon
-    let imgApi =  `http://openweathermap.org/img/wn/${imgSrc}@2x.png`
+    let imgApi =  `https://openweathermap.org/img/wn/${imgSrc}@2x.png`
     img.src = imgApi
     
     celsiusApi = Math.floor(kelvinApi -273)
@@ -140,14 +138,16 @@ function updatePage () {
 }
 
 // * GRABS THE BUTTON AND INPUT ID'S AFTER THEY HAVE BEEN CREATED
-let inputBox = document.getElementById('inputBox')
+// let inputBox = document.getElementById('inputBox').addEventListener('oninput', getValue)
 let weatherBtn = document.getElementById('weatherBtn').addEventListener('click', generatePage)
 
 
 // * GENERATES THE PAGE WHEN THE GET WEATHER BTN IS CLICKED ALSO CALLS THE API FUNCTION AND INPUTS THE ZIP CODE
-function generatePage () {
+// TODO this is erroring out. need to revise it.
+async function generatePage () {
     getValue()
-    getData()
+    updatePage()
+    // getData()
     if(page === 0) {
         page = 1
         createCity()
@@ -155,18 +155,13 @@ function generatePage () {
         createCondition()
         createOtherInfo()
     }
-    updatePage()
     console.log(page)
 }
 
 function getValue () {
     let value = inputBox.value.toString()
-    console.log(value)
     zipCode = value
 }
-
-
-
 
 
 function createAndAddElement(parent, elementType, classes, elementID = '', contents = '', isHTML = false) {
