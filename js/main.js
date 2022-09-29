@@ -1,6 +1,7 @@
 // * all of my id's
 // ! mainDiv inputBox weatherBtn cityName kelvin fahrenheit celsius condition img
 // 
+let page = 0
 let key = '3db863ffa8cb3cc541bf887258b911c9';
 let zipCode = ''; //keeping 40511 for test purposes
 let weatherObj;
@@ -42,7 +43,7 @@ function createCity () {
     let city = createAndAddElement(cityNameDiv, 'h3', ['p-1'], 'cityName', '')
 
 }
-createCity()
+// createCity()
 
 
 
@@ -68,7 +69,7 @@ let fahrenheit = createAndAddElement(fahrenheitDiv, 'h3', ['p-1'], 'fahrenheit',
 let celsiusDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-start', 'border-end', 'border-success', 'p-3'], '', '')
 let celsius = createAndAddElement(celsiusDiv, 'h3', ['p-1'], 'celsius', '')
 }
-createTemperature()
+// createTemperature()
 
 
 
@@ -80,7 +81,7 @@ function createCondition () {
     let conditionDiv = createAndAddElement(conditionRow, 'div', ['col-12', 'text-center', 'border-bottom', 'border-start', 'border-end', 'border-success', 'rounded-bottom', 'p-3'])
     let condition = createAndAddElement(conditionDiv, 'h3', ['p-1'], 'condition', '')
 }
-createCondition()
+// createCondition()
 
 
 // * CREATES THE IMG
@@ -96,7 +97,7 @@ let otherInfoImgDiv = createAndAddElement(otherInfoRow, 'div', ['col-12', 'text-
 let otherInfoImg = createAndAddElement(otherInfoImgDiv, 'img', ['p-1'], 'img','')
 
 }
-createOtherInfo()
+// createOtherInfo()
 
 
 // * GRABS THE BUTTON AND INPUT ID'S AFTER THEY HAVE BEEN CREATED
@@ -106,12 +107,22 @@ let weatherBtn = document.getElementById('weatherBtn').addEventListener('click',
 
 // * GENERATES THE PAGE WHEN THE GET WEATHER BTN IS CLICKED ALSO CALLS THE API FUNCTION AND INPUTS THE ZIP CODE
 function generatePage () {
-        let value = inputBox.value.toString()
+    let value = inputBox.value.toString()
         console.log(value)
         zipCode = value
+        if(page === 0) {
+            page = 1
+            
+            createCity()
+            createTemperature()
+            createCondition()
+            createOtherInfo()
+            
+            
+        }
         getData()
         updatePage()
-    
+    console.log(page)
     
     
 }
@@ -154,7 +165,7 @@ async function getData() {
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
     let data = response.data;
     weatherObj = data;
-    // console.log(data);
+    
 }
 
 // console.log(weatherObj)
