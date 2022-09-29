@@ -23,6 +23,7 @@ function createStaticElements(){
     let inputBox = createAndAddElement(weatherInputBox, 'input', ['p-1'], 'inputBox', '')
     inputBox.setAttribute('type', 'text')
     inputBox.setAttribute('placeholder', 'Zip-Code')
+    inputBox.setAttribute('maxlength', '5')
     
     let weatherBtnBox = createAndAddElement(weatherRow, 'div', ['col-sm-6'], '', '')
     
@@ -59,15 +60,15 @@ let tempName = createAndAddElement(tempDiv, 'h2', ['p-1'], '', 'Temperature')
 
 
 let kelvinDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-start', 'border-end', 'border-success', 'p-3'])
-let kelvin = createAndAddElement(kelvinDiv, 'h3', ['p-1'], 'kelvin', '')
+let kelvin = createAndAddElement(kelvinDiv, 'h3', ['p-1'], 'kelvin', 'K')
 
 
 let fahrenheitDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-success', 'p-3'], '', '')
-let fahrenheit = createAndAddElement(fahrenheitDiv, 'h3', ['p-1'], 'fahrenheit', '')
+let fahrenheit = createAndAddElement(fahrenheitDiv, 'h3', ['p-1'], 'fahrenheit', 'F')
 
 
 let celsiusDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-start', 'border-end', 'border-success', 'p-3'], '', '')
-let celsius = createAndAddElement(celsiusDiv, 'h3', ['p-1'], 'celsius', '')
+let celsius = createAndAddElement(celsiusDiv, 'h3', ['p-1'], 'celsius', 'C')
 }
 // createTemperature()
 
@@ -99,6 +100,44 @@ let otherInfoImg = createAndAddElement(otherInfoImgDiv, 'img', ['p-1'], 'img',''
 }
 // createOtherInfo()
 
+async function getData() {
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
+    let data = response.data;
+    weatherObj = data;
+}
+
+function updatePage () {
+    
+    let city = document.getElementById('cityName')
+    let fahrenheit = document.getElementById('fahrenheit')
+    let celsius = document.getElementById('celsius')
+    let kelvin = document.getElementById('kelvin')
+    let condition = document.getElementById('condition')
+    let img = document.getElementById('img')
+
+    let cityName = weatherObj.name
+    let kelvinApi = weatherObj.main.temp
+    let fahrenheitApi = weatherObj.main.temp
+    let celsiusApi = weatherObj.main.temp
+    let conditionApi = weatherObj.weather[0].description
+    let imgSrc = weatherObj.weather[0].icon
+    let imgApi =  `http://openweathermap.org/img/wn/${imgSrc}@2x.png`
+    img.src = imgApi
+    
+    celsiusApi = Math.floor(kelvinApi -273)
+    fahrenheitApi = Math.floor( celsiusApi * (9/5) + 32)
+    
+    city.textContent = cityName
+    kelvin.textContent = kelvinApi
+    fahrenheit.textContent = fahrenheitApi
+    celsius.textContent = celsiusApi
+    condition.textContent = conditionApi
+    
+    console.log(conditionApi)
+    console.log(kelvinApi)
+    console.log(celsiusApi)
+    console.log(fahrenheitApi)
+}
 
 // * GRABS THE BUTTON AND INPUT ID'S AFTER THEY HAVE BEEN CREATED
 let inputBox = document.getElementById('inputBox')
@@ -107,27 +146,24 @@ let weatherBtn = document.getElementById('weatherBtn').addEventListener('click',
 
 // * GENERATES THE PAGE WHEN THE GET WEATHER BTN IS CLICKED ALSO CALLS THE API FUNCTION AND INPUTS THE ZIP CODE
 function generatePage () {
-    let value = inputBox.value.toString()
-        console.log(value)
-        zipCode = value
-        if(page === 0) {
-            page = 1
-            
-            createCity()
-            createTemperature()
-            createCondition()
-            createOtherInfo()
-            
-            
-        }
-        getData()
-        updatePage()
+    getValue()
+    getData()
+    if(page === 0) {
+        page = 1
+        createCity()
+        createTemperature()
+        createCondition()
+        createOtherInfo()
+    }
+    updatePage()
     console.log(page)
-    
-    
 }
 
-
+function getValue () {
+    let value = inputBox.value.toString()
+    console.log(value)
+    zipCode = value
+}
 
 
 
@@ -151,24 +187,9 @@ function createAndAddElement(parent, elementType, classes, elementID = '', conte
     return el;
 }
 
-function updatePage () {
-    // console.log(weatherObj)
-    let name = weatherObj.name
-    console.log(name)
-    let city = document.getElementById('cityName')
-    city.textContent = name
-}
 
 
 
-async function getData() {
-    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
-    let data = response.data;
-    weatherObj = data;
-    
-}
 
 // console.log(weatherObj)
 
-
-// TODO (285.79K − 273.15) × 9/5 + 32 = 54.752°F  USE THIS FOR CONVERSION
