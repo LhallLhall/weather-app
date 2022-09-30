@@ -1,14 +1,17 @@
 // * all of my id's
 // ! mainDiv inputBox weatherBtn cityName kelvin fahrenheit celsius condition img
-// 
+// STATE
+let data = null;
 let page = 0
 let key = '3db863ffa8cb3cc541bf887258b911c9';
 let zipCode = ''; //keeping 40511 for test purposes
 let weatherObj;
 let mainDiv = document.getElementById('mainDiv');
-mainDiv.classList.add('container',)
+mainDiv.classList.add('container');
+// END OF STATE
 
-
+// INIT
+addEventListener('load',createStaticElements); // 
 
 // * CREATES THE BASIC ELEMENTS THAT WILL STATICALLY STAY ON THE PAGE
 function createStaticElements(){
@@ -24,20 +27,26 @@ function createStaticElements(){
     inputBox.setAttribute('type', 'text')
     inputBox.setAttribute('placeholder', 'Zip-Code')
     inputBox.setAttribute('maxlength', '5')
+
+    inputBox.addEventListener('keypress', (e) => {
+        zipCode = e.target.value;
+    })
+    // listen for keypress
     
     let weatherBtnBox = createAndAddElement(weatherRow, 'div', ['col-sm-6'], '', '')
     
     let weatherBtn = createAndAddElement(weatherBtnBox, 'button', ['btn', 'btn-success'], 'weatherBtn', 'Get Weather')
     weatherBtn.setAttribute('type', 'button')
+    // * GRABS THE BUTTON AND INPUT ID'S AFTER THEY HAVE BEEN CREATED
+    weatherBtn.addEventListener('click', zipCodeButtonClick); //
 }
-createStaticElements()
 
 
 
 // * CREATES THE CITY PORTION OF THE PAGE
 function createCity () {
     
-    let cityRow =createAndAddElement(mainDiv, 'div', ['row', 'p-4'], '', '')
+    let cityRow =createAndAddElement(mainDiv, 'div', ['row', 'p-4'], 'cityContainer', '')
     let cityNameBox = createAndAddElement(cityRow, 'div', ['col-12','text-center','border-top','border-end','border-start','border-success','rounded-top','p-4'], '','' )
     let cityName = createAndAddElement(cityNameBox, 'h2', ['p-1'], '', 'City')
     let cityNameDiv = createAndAddElement(cityRow, 'div', ['col-12', 'text-center', 'border', 'border-success', 'rounded-bottom', 'p-3'], '','')
@@ -52,7 +61,7 @@ function createCity () {
 // * CREATES THE TEMPERATURE PORTION OF THE PAGE
 function createTemperature () {
 
-let tempRow = createAndAddElement(mainDiv, 'div', ['row', 'p-3'], '', '')
+let tempRow = createAndAddElement(mainDiv, 'div', ['row', 'p-3'], 'tempContainer', '')
 
 
 let tempDiv = createAndAddElement(tempRow, 'div', ['col-12', 'text-center', 'border', 'rounded-top', 'border-success', 'p-4'])
@@ -76,7 +85,7 @@ let celsius = createAndAddElement(celsiusDiv, 'h3', ['p-1'], 'celsius', 'C')
 
 // * CREATES THE CONDITION PORTION OF THE PAGE
 function createCondition () {
-    let conditionRow = createAndAddElement(mainDiv, 'div', ['row', 'p-4'], '', '')
+    let conditionRow = createAndAddElement(mainDiv, 'div', ['row', 'p-4'], 'conditionContainer', '')
     let conditionNameDiv = createAndAddElement(conditionRow, 'div', ['col-12', 'text-center', 'border', 'border-success', 'rounded-top', 'p-4'], '', '')
     let conditionName = createAndAddElement(conditionNameDiv, 'h2', ['p-1'], '', 'Condition')
     let conditionDiv = createAndAddElement(conditionRow, 'div', ['col-12', 'text-center', 'border-bottom', 'border-start', 'border-end', 'border-success', 'rounded-bottom', 'p-3'])
@@ -87,7 +96,7 @@ function createCondition () {
 
 // * CREATES THE IMG
 function createOtherInfo () {
-let otherInfoRow = createAndAddElement(mainDiv, 'div', ['row','p-4'], '','')
+let otherInfoRow = createAndAddElement(mainDiv, 'div', ['row','p-4'], 'otherInfoContainer','')
 
 
 let otherInfoNameDiv = createAndAddElement(otherInfoRow, 'div', ['col-12', 'text-center', 'border', 'border-success', 'rounded-top', 'p-4'], '', '')
@@ -100,17 +109,75 @@ let otherInfoImg = createAndAddElement(otherInfoImgDiv, 'img', ['p-1'], 'img',''
 }
 
 
-async function updatePage () {
-    let data;
+async function getWeatherData () {
+   
     try {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
-        data = response.data;
+        // if the response is not good
+        return response.data;
     }catch (error) {
         alert('Zip-Code Does Not Work')
         console.log('hi')
     }
-        weatherObj = data;
+    return null;
+}
+
+// * GENERATES THE PAGE WHEN THE GET WEATHER BTN IS CLICKED ALSO CALLS THE API FUNCTION AND INPUTS THE ZIP CODE
+// TODO this is erroring out. need to revise it.
+async function zipCodeButtonClick() {
+    let hasGoodZipCode = false;
     
+    zipCode = getZipCode()
+    data = await getWeatherData()
+
+    // getData()
+    if(data !== null && zipCode !== '') {
+        createCity()
+        createTemperature()
+        createCondition()
+        createOtherInfo()
+        populateWeatherView() // 
+    } else {
+        removeWeatherInfo();
+        zipCode = '';
+    }
+    console.log(page)
+}
+
+
+function getZipCode () {
+    return inputBox.value.toString();
+}
+
+function createAndAddElement(parent, elementType, classes, elementID = '', contents = '', isHTML = false) {
+    let el = document.createElement(elementType);
+    if(elementID != ''){
+        el.id = elementID;
+    }
+    for(var i = 0; i < classes.length; i++){
+        el.classList.add(classes[i]);
+    }
+    if(contents != ''){
+        el.textContent = contents;
+        if(isHTML){
+            el.innerHTML = contents;
+        }
+    }
+    parent.appendChild(el);
+    return el;
+}
+
+function removeWeatherInfo (){
+    if(document.getElementById('cityContainer') !== null){
+        document.getElementById('cityContainer').remove();
+        document.getElementById('tempContainer').remove();
+        document.getElementById('conditionContainer').remove();
+        document.getElementById('otherInfoContainer').remove();
+    }
+}
+
+function populateWeatherView (){
+        weatherObj = data;
         let city = document.getElementById('cityName')
         let fahrenheit = document.getElementById('fahrenheit')
         let celsius = document.getElementById('celsius')
@@ -141,58 +208,7 @@ async function updatePage () {
         console.log(kelvinApi)
         console.log(celsiusApi)
         console.log(fahrenheitApi)
-
-
-
 }
-
-
-// * GRABS THE BUTTON AND INPUT ID'S AFTER THEY HAVE BEEN CREATED
-let weatherBtn = document.getElementById('weatherBtn').addEventListener('click', generatePage)
-
-
-// * GENERATES THE PAGE WHEN THE GET WEATHER BTN IS CLICKED ALSO CALLS THE API FUNCTION AND INPUTS THE ZIP CODE
-// TODO this is erroring out. need to revise it.
-function generatePage () {
-    getValue()
-    updatePage()
-    // getData()
-    if(page === 0) {
-        page = 1
-        createCity()
-        createTemperature()
-        createCondition()
-        createOtherInfo()
-    }
-    console.log(page)
-}
-
-
-function getValue () {
-    let value = inputBox.value.toString()
-    zipCode = value
-}
-
-
-function createAndAddElement(parent, elementType, classes, elementID = '', contents = '', isHTML = false) {
-    let el = document.createElement(elementType);
-    if(elementID != ''){
-        el.id = elementID;
-    }
-    for(var i = 0; i < classes.length; i++){
-        el.classList.add(classes[i]);
-    }
-    if(contents != ''){
-        el.textContent = contents;
-        if(isHTML){
-            el.innerHTML = contents;
-        }
-    }
-    parent.appendChild(el);
-    return el;
-}
-
-
 
 
 
