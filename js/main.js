@@ -2,7 +2,7 @@
 // ! mainDiv inputBox weatherBtn cityName kelvin fahrenheit celsius condition img
 // STATE
 let data = null;
-let page = 0
+// let inputBox;
 let key = '3db863ffa8cb3cc541bf887258b911c9';
 let zipCode = '';
 let weatherObj;
@@ -15,29 +15,29 @@ addEventListener('load',createStaticElements); //
 
 // * CREATES THE BASIC ELEMENTS THAT WILL STATICALLY STAY ON THE PAGE
 function createStaticElements(){
-    let weatherRow = createAndAddElement(mainDiv, 'div', ['row', 'text-center'], '', '')
+    let weatherRow = createAndAddElement(mainDiv, 'div', ['row', 'text-center'], '', '');
     
-    let weatherNameDiv = createAndAddElement(weatherRow, 'div', ['col-12', 'p-3'], '', '')
+    let weatherNameDiv = createAndAddElement(weatherRow, 'div', ['col-12', 'p-3'], '', '');
     
-    let weatherName = createAndAddElement(weatherNameDiv, 'h1', ['p-1'], '', 'Weather App')
+    let weatherName = createAndAddElement(weatherNameDiv, 'h1', ['p-1'], '', 'Weather App');
     
-    let weatherInputBox = createAndAddElement(weatherRow, 'div', ['col-sm-6'], '', '')
+    let weatherInputBox = createAndAddElement(weatherRow, 'div', ['col-sm-6'], '', '');
     
-    let inputBox = createAndAddElement(weatherInputBox, 'input', ['p-1'], 'inputBox', '')
-    inputBox.setAttribute('type', 'text')
-    inputBox.setAttribute('placeholder', 'Zip-Code')
-    inputBox.setAttribute('maxlength', '5')
+    let inputBox = createAndAddElement(weatherInputBox, 'input', ['p-1'], 'inputBox', '');
+    inputBox.setAttribute('type', 'text');
+    inputBox.setAttribute('placeholder', 'Zip-Code');
+    inputBox.setAttribute('maxlength', '5');
 
     inputBox.addEventListener('keypress', (e) => {
         zipCode = e.target.value;
     })
     // listen for keypress
     
-    let weatherBtnBox = createAndAddElement(weatherRow, 'div', ['col-sm-6'], '', '')
+    let weatherBtnBox = createAndAddElement(weatherRow, 'div', ['col-sm-6'], '', '');
     
-    let weatherBtn = createAndAddElement(weatherBtnBox, 'button', ['btn', 'btn-success'], 'weatherBtn', 'Get Weather')
-    weatherBtn.setAttribute('type', 'button')
-    // * GRABS THE BUTTON AND INPUT ID'S AFTER THEY HAVE BEEN CREATED
+    let weatherBtn = createAndAddElement(weatherBtnBox, 'button', ['btn', 'btn-success'], 'weatherBtn', 'Get Weather');
+    weatherBtn.setAttribute('type', 'button');
+    
     weatherBtn.addEventListener('click', zipCodeButtonClick); //
 }
 
@@ -46,11 +46,11 @@ function createStaticElements(){
 // * CREATES THE CITY PORTION OF THE PAGE
 function createCity () {
     
-    let cityRow =createAndAddElement(mainDiv, 'div', ['row', 'p-4'], 'cityContainer', '')
-    let cityNameBox = createAndAddElement(cityRow, 'div', ['col-12','text-center','border-top','border-end','border-start','border-success','rounded-top','p-4'], '','' )
-    let cityName = createAndAddElement(cityNameBox, 'h2', ['p-1'], '', 'City')
-    let cityNameDiv = createAndAddElement(cityRow, 'div', ['col-12', 'text-center', 'border', 'border-success', 'rounded-bottom', 'p-3'], '','')
-    let city = createAndAddElement(cityNameDiv, 'h3', ['p-1'], 'cityName', '')
+    let cityRow =createAndAddElement(mainDiv, 'div', ['row', 'p-4'], 'cityContainer', '');
+    let cityNameBox = createAndAddElement(cityRow, 'div', ['col-12','text-center','border-top','border-end','border-start','border-success','rounded-top','p-4'], '','' );
+    let cityName = createAndAddElement(cityNameBox, 'h2', ['p-1'], '', 'City');
+    let cityNameDiv = createAndAddElement(cityRow, 'div', ['col-12', 'text-center', 'border', 'border-success', 'rounded-bottom', 'p-3'], '','');
+    let city = createAndAddElement(cityNameDiv, 'h3', ['p-1'], 'cityName', '');
 
 }
 // createCity()
@@ -61,23 +61,23 @@ function createCity () {
 // * CREATES THE TEMPERATURE PORTION OF THE PAGE
 function createTemperature () {
 
-let tempRow = createAndAddElement(mainDiv, 'div', ['row', 'p-3'], 'tempContainer', '')
+let tempRow = createAndAddElement(mainDiv, 'div', ['row', 'p-3'], 'tempContainer', '');
 
 
-let tempDiv = createAndAddElement(tempRow, 'div', ['col-12', 'text-center', 'border', 'rounded-top', 'border-success', 'p-4'])
-let tempName = createAndAddElement(tempDiv, 'h2', ['p-1'], '', 'Temperature')
+let tempDiv = createAndAddElement(tempRow, 'div', ['col-12', 'text-center', 'border', 'rounded-top', 'border-success', 'p-4']);
+let tempName = createAndAddElement(tempDiv, 'h2', ['p-1'], '', 'Temperature');
 
 
-let kelvinDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-start', 'border-end', 'border-success', 'p-3'])
-let kelvin = createAndAddElement(kelvinDiv, 'h3', ['p-1'], 'kelvin', 'K')
+let kelvinDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-start', 'border-end', 'border-success', 'p-3']);
+let kelvin = createAndAddElement(kelvinDiv, 'h3', ['p-1'], 'kelvin', 'K');
 
 
-let fahrenheitDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-success', 'p-3'], '', '')
-let fahrenheit = createAndAddElement(fahrenheitDiv, 'h3', ['p-1'], 'fahrenheit', 'F')
+let fahrenheitDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-success', 'p-3'], '', '');
+let fahrenheit = createAndAddElement(fahrenheitDiv, 'h3', ['p-1'], 'fahrenheit', 'F');
 
 
-let celsiusDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-start', 'border-end', 'border-success', 'p-3'], '', '')
-let celsius = createAndAddElement(celsiusDiv, 'h3', ['p-1'], 'celsius', 'C')
+let celsiusDiv = createAndAddElement(tempRow, 'div', ['col-4', 'text-center', 'border-bottom', 'rounded-bottom', 'border-start', 'border-end', 'border-success', 'p-3'], '', '');
+let celsius = createAndAddElement(celsiusDiv, 'h3', ['p-1'], 'celsius', 'C');
 }
 // createTemperature()
 
@@ -117,6 +117,7 @@ async function getWeatherData () {
     }catch (error) {
         alert('Zip-Code Does Not Work')
         console.log('hi')
+        // inputBox.value = ''
     }
     return null;
 }
@@ -135,7 +136,7 @@ async function zipCodeButtonClick() {
         createTemperature()
         createCondition()
         createOtherInfo()
-        populateWeatherView()
+        generateWeatherData()
     } else {
         removeWeatherInfo();
         zipCode = '';
