@@ -4,7 +4,7 @@
 let data = null;
 let page = 0
 let key = '3db863ffa8cb3cc541bf887258b911c9';
-let zipCode = ''; //keeping 40511 for test purposes
+let zipCode = '';
 let weatherObj;
 let mainDiv = document.getElementById('mainDiv');
 mainDiv.classList.add('container');
@@ -113,7 +113,6 @@ async function getWeatherData () {
    
     try {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${key}`);
-        // if the response is not good
         return response.data;
     }catch (error) {
         alert('Zip-Code Does Not Work')
@@ -136,7 +135,7 @@ async function zipCodeButtonClick() {
         createTemperature()
         createCondition()
         createOtherInfo()
-        populateWeatherView() // 
+        populateWeatherView()
     } else {
         removeWeatherInfo();
         zipCode = '';
@@ -176,7 +175,7 @@ function removeWeatherInfo (){
     }
 }
 
-function populateWeatherView (){
+function generateWeatherData (){
         weatherObj = data;
         let city = document.getElementById('cityName')
         let fahrenheit = document.getElementById('fahrenheit')

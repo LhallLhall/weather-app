@@ -7,7 +7,8 @@
 - createAndAddElement()
   - create a function with parameters that when the function is called it uses those parameters to create that element
 - createStaticElements()
-  - create the button inputBox and H1 using createAndAddElement()
+  - create the button, inputBox, and H1 using createAndAddElement()
+    - have an event listener on the inputBox so that it constantly updates the zipCode
 - createCity()
   - create the div, h2, h3 and adds classes to them
 - createTemperature()
