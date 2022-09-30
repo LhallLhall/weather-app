@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather-App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-secondary">
+    <div class="container"id="mainDiv"> <!--need to add class "container" using js-->
+        <!-- * * THIS SECTION IS STATIC AND ALWAYS HERE -->
+        <div class="row text-center">
+
+            <div class="col-12 p-3 ">
+                <h1>Weather App</h1>
+            </div>
+            <div class="col-sm-6" >
+                <input id="inputBox" placeholder="40511">
+            </div>
+            <div class="col-sm-6">
+                <button id="weatherBtn"class="btn btn-primary">Get Weather</button>
+            </div>
+
+        </div>
+
+        <!-- * * THIS IS FOR THE MAIN APP -->
+        <!-- * * THIS SECTION IS FOR THE CITY DISPLAY -->
+        <div class="row p-4">
+            
+                <div class="col-12 text-center border-top border-end border-start border-warning rounded-top p-4">
+                    <h2>City</h2>
+                </div>
+                <div class="col-12 text-center border border-warning rounded-bottom p-3 ">
+                    <h3 id="cityName"></h3>
+                </div>
+            
+        </div>
+
+        <!-- * THIS IS FOR THE TEMP -->
+        <div class="row p-4">
+                <div class="col-12 text-center border rounded-top border-warning p-4">
+                    <h2>Temperature</h2>
+                </div>
+                <div class="col-4 text-center border-bottom rounded-bottom border-start border-end border-warning p-3 ">
+                    <h3 id="kelvin"></h3>
+                </div>
+                <div class="col-4 text-center border-bottom rounded-bottom border-warning p-3">
+                    <h3 id="fahrenheit"></h3>
+                </div>
+                <div class="col-4 text-center border-bottom rounded-bottom border-start border-end border-warning p-3">
+                    <h3 id="celsius"></h3>
+                </div>
+        </div>
+
+        <!-- * THIS SECTION IS FOR THE CONDITION -->
+        <div class="row p-4">
+            <div class="col-12 text-center border border-warning rounded-top p-4">
+                <h2>Condition</h2>
+            </div>
+            <div class="col-12 text-center border-bottom border-start border-end border-warning rounded-bottom p-3 ">
+                <h3 id="condition"></h3>
+            </div>
+        </div>
+        
+        <div class="row p-4">
+            <div class="col-12 text-center border border-warning rounded-top p-4">
+                <h2>Other Info</h2>
+            </div>
+            <div class=" col-12 text-center border-bottom border-start border-end border-warning rounded-bottom p-4">
+                <img id="img" src="">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
